@@ -16,6 +16,7 @@ import { Category } from './categories/models/categories.model';
 import { ArticleTag } from './articletag/models/articletag.model';
 import { Tag } from './tags/models/tags.model';
 import { Like } from './likes/models/likes.model';
+import { Comment } from './comments/models/comments.model';
 
 @Module({
   imports: [UsersModule, StoriesModule, CategoriesModule, CommentsModule, LikesModule, TagsModule,
@@ -28,12 +29,13 @@ import { Like } from './likes/models/likes.model';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       models: [
-        User, 
-        Article, 
-        Category, 
-        Tag, 
-        ArticleTag, 
-        Like, 
+  User, 
+  Article, 
+  Category, 
+  Tag, 
+  ArticleTag, 
+  Like, 
+  Comment,
       ],
       autoLoadModels: true,
       synchronize: true, // Set to false in production
