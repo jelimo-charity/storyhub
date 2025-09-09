@@ -3,20 +3,20 @@ import { Article } from 'src/stories/models/articles.model';
 
 @Table({
   tableName: 'categories',
-  timestamps: false
+  timestamps: false,
 })
 export class Category extends Model<Category> {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   })
   declare id: number;
 
   @Column({
     type: DataType.STRING(50),
     allowNull: false,
-    unique: true
+    unique: true,
   })
   name: string;
 

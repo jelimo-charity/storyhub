@@ -1,0 +1,9 @@
+/* Story detail component styles */
+.prose {
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.prose p {
+  margin-bottom: 1.5rem;
+}
