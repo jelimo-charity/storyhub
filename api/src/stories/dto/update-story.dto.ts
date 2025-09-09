@@ -1,4 +1,12 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateStoryDto } from './create-story.dto';
+import { ArticleStatus } from '../models/articles.model';
 
-export class UpdateStoryDto extends PartialType(CreateStoryDto) {}
+export class UpdateStoryDto {
+	title?: string;
+	content?: string;
+	slug?: string;
+	coverImage?: string;
+	status?: ArticleStatus;
+	authorId?: number;
+	categoryId?: number;
+	// tags?: number[];
+}
