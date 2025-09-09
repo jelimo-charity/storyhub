@@ -1,26 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
+import { Tag } from './models/tags.model';
 
 @Injectable()
 export class TagsService {
-  create(createTagDto: CreateTagDto) {
-    return 'This action adds a new tag';
+  constructor(
+    @InjectModel(Tag)
+    private tagModel: typeof Tag,
+  ) {}
+
+  async create(createTagDto: CreateTagDto): Promise<Tag> {
+    try {
+      return this.tagModel.create(createTagDto as any);
+    } catch (error) {
+      console.error('Error creating tag:', error);
+      throw error;
+    }
   }
 
-  findAll() {
-    return `This action returns all tags`;
+  async findAll(): Promise<Tag[]> {
+    try {
+      return await this.tagModel.findAll();
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+      return [];
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tag`;
+  async findOne(id: number): Promise<Tag> {
+    try {
+      const tag = await this.tagModel.findOne({
+        where: { name: id.toString() },
+      });
+      if (!tag) throw new NotFoundException('Tag not found');
+      return tag;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      console.error(`Error fetching tag with id ${id}:`, error);
+      throw new NotFoundException('Tag not found or error occurred');
+    }
   }
 
-  update(id: number, updateTagDto: UpdateTagDto) {
-    return `This action updates a #${id} tag`;
+  async update(
+    id: number,
+    updateTagDto: UpdateTagDto,
+  ): Promise<[number, Tag[]]> {
+    return this.tagModel.update(updateTagDto, {
+      where: { name: id.toString() },
+      returning: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tag`;
+  async remove(id: number): Promise<number> {
+    return this.tagModel.destroy({ where: { name: id.toString() } });
   }
 }

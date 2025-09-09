@@ -1,3 +1,4 @@
 export class CreateCategoryDto {
-	name: string;
+  name: string;
+  // Removed description as it's not in the database
 }

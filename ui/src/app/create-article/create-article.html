@@ -1,0 +1,143 @@
+<div class="min-h-screen bg-gray-100 py-8">
+  <div class="container mx-auto px-4">
+    <div class="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto">
+      <h1 class="text-2xl font-bold mb-6 text-center text-blue-600">Create New Article</h1>
+
+      <div *ngIf="message" class="mb-4 p-3 bg-green-100 text-green-700 rounded">
+        {{ message }}
+      </div>
+
+      <div *ngIf="error" class="mb-4 p-3 bg-red-100 text-red-700 rounded">
+        {{ error }}
+      </div>
+
+      <form (submit)="onSubmit($event)">
+        <div class="mb-4">
+          <label for="title" class="block text-gray-700 font-medium mb-2">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            [(ngModel)]="article.title"
+            required
+            class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="content" class="block text-gray-700 font-medium mb-2">Content</label>
+          <textarea
+            id="content"
+            name="content"
+            [(ngModel)]="article.content"
+            required
+            rows="12"
+            class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
+          ></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="category" class="block text-gray-700 font-medium mb-2">Category</label>
+          <div class="flex">
+            <select
+              id="category"
+              name="categoryId"
+              [(ngModel)]="article.categoryId"
+              required
+              class="w-full px-3 py-2 border rounded-l focus:outline-none focus:ring focus:border-blue-300"
+            >
+              <option [ngValue]="null">Select a category</option>
+              <option *ngFor="let category of categories" [ngValue]="category.id">
+                {{ category.name }}
+              </option>
+            </select>
+            <button
+              type="button"
+              (click)="goToCategories()"
+              class="bg-green-600 text-white px-4 py-2 rounded-r hover:bg-green-700 transition"
+              title="Create new categories"
+            >
+              +
+            </button>
+          </div>
+          <div *ngIf="categories.length === 0" class="mt-2 text-sm text-red-600">
+            No categories available. Please create a category first.
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2">Tags</label>
+          <div class="flex flex-wrap gap-2 mb-2">
+            <span
+              *ngFor="let tag of article.tags"
+              class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm flex items-center"
+            >
+              {{ tag }}
+              <button
+                type="button"
+                (click)="removeTag(tag)"
+                class="ml-2 text-blue-500 hover:text-blue-700"
+              >
+                &times;
+              </button>
+            </span>
+          </div>
+          <div class="flex">
+            <input
+              type="text"
+              [(ngModel)]="newTag"
+              name="newTag"
+              placeholder="Add a tag"
+              class="flex-grow px-3 py-2 border rounded-l focus:outline-none focus:ring focus:border-blue-300"
+            />
+            <button
+              type="button"
+              (click)="addTag()"
+              class="bg-blue-600 text-white px-4 py-2 rounded-r hover:bg-blue-700 transition"
+            >
+              Add
+            </button>
+          </div>
+          <div class="mt-2 text-sm text-gray-600">
+            <p>Available tags:</p>
+            <div class="flex flex-wrap gap-1 mt-1">
+              <button
+                *ngFor="let tag of availableTags"
+                type="button"
+                (click)="newTag = tag.name"
+                class="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-xs transition"
+              >
+                {{ tag.name }}
+              </button>
+              <button
+                type="button"
+                (click)="goToTags()"
+                class="bg-green-600 text-white px-2 py-1 rounded text-xs transition"
+                title="Create new tags"
+              >
+                + Add More Tags
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button
+            type="button"
+            (click)="cancelCreate()"
+            class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2 hover:bg-gray-400 transition"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [disabled]="loading"
+            class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition disabled:opacity-50"
+          >
+            {{ loading ? 'Saving...' : 'Create Article' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

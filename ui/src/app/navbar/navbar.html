@@ -1,4 +1,4 @@
-<nav class="bg-white shadow mb-8">
+<nav class="bg-white shadow fixed top-0 left-0 right-0 z-10">
   <div class="container mx-auto px-4 py-3 flex justify-between items-center">
     <div class="flex items-center space-x-4">
       <button
@@ -13,6 +13,26 @@
       >
         Home
       </button>
+      <ng-container *ngIf="isLoggedIn && canCreateArticles">
+        <button
+          (click)="navigateTo('/articles/create')"
+          class="text-gray-700 hover:text-blue-600 cursor-pointer bg-transparent border-none"
+        >
+          Create Article
+        </button>
+        <button
+          (click)="navigateTo('/categories')"
+          class="text-gray-700 hover:text-blue-600 cursor-pointer bg-transparent border-none"
+        >
+          Categories
+        </button>
+        <button
+          (click)="navigateTo('/tags')"
+          class="text-gray-700 hover:text-blue-600 cursor-pointer bg-transparent border-none"
+        >
+          Tags
+        </button>
+      </ng-container>
     </div>
     <div class="flex items-center space-x-4">
       <ng-container *ngIf="!isLoggedIn">
@@ -30,6 +50,12 @@
         </button>
       </ng-container>
       <ng-container *ngIf="isLoggedIn">
+        <button
+          routerLink="/profile"
+          class="text-gray-700 hover:text-blue-600 cursor-pointer bg-transparent border-none mr-4"
+        >
+          My Profile
+        </button>
         <button (click)="logout()" class="text-gray-700 hover:text-red-600 cursor-pointer">
           Logout
         </button>
@@ -37,3 +63,6 @@
     </div>
   </div>
 </nav>
+
+<!-- Spacer to prevent content from hiding behind fixed navbar -->
+<div class="h-16"></div>

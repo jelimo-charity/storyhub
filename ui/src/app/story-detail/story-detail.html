@@ -1,0 +1,56 @@
+<div class="min-h-screen bg-gray-100 py-8">
+  <div class="container mx-auto px-4">
+    <div class="bg-white p-8 rounded shadow-md max-w-4xl mx-auto">
+      <div *ngIf="error" class="mb-4 p-3 bg-red-100 text-red-700 rounded">
+        {{ error }}
+      </div>
+
+      <div *ngIf="loading" class="text-center text-gray-500 py-10">
+        <svg
+          class="animate-spin h-10 w-10 text-blue-500 mx-auto mb-4"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        <p>Loading story...</p>
+      </div>
+
+      <div *ngIf="!loading && story">
+        <h1 class="text-3xl font-bold mb-4 text-blue-600">{{ story.title }}</h1>
+
+        <div class="flex items-center text-sm text-gray-500 mb-6">
+          <!-- Only show created_at date, remove author and category until backend is ready -->
+          <span>{{ story.created_at | date : 'mediumDate' }}</span>
+        </div>
+
+        <div *ngIf="story.coverImage" class="mb-6">
+          <img [src]="story.coverImage" alt="Story cover" class="w-full h-auto rounded-lg shadow" />
+        </div>
+
+        <div class="prose prose-blue max-w-none">
+          <p class="whitespace-pre-line">{{ story.content }}</p>
+        </div>
+
+        <!-- Remove tags section until backend supports it -->
+      </div>
+
+      <div class="mt-8 text-center">
+        <a routerLink="/" class="text-blue-600 hover:underline">Back to Stories</a>
+      </div>
+    </div>
+  </div>
+</div>

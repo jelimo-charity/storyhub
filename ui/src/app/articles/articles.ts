@@ -13,19 +13,21 @@ import { CommonModule } from '@angular/common';
 export class Articles {
   articles: any[] = [];
   loading = true;
+  error = '';
 
   constructor(private http: HttpClient, private router: Router) {
     this.fetchArticles();
   }
 
   fetchArticles() {
-    this.http.get<any[]>('http://localhost:3000/articles', { withCredentials: true }).subscribe({
+    this.http.get<any[]>('http://localhost:3000/stories', { withCredentials: true }).subscribe({
       next: (data) => {
         this.articles = data;
         this.loading = false;
       },
       error: (err) => {
         console.error('Error fetching articles:', err);
+        this.error = err.error?.message || 'Failed to load articles';
         this.articles = [];
         this.loading = false;
       },
@@ -33,6 +35,6 @@ export class Articles {
   }
 
   openArticle(article: any) {
-    this.router.navigate(['/articles', article.id]);
+    this.router.navigate(['/stories', article.id]);
   }
 }

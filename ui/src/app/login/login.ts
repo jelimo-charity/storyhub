@@ -31,8 +31,10 @@ export class Login {
       )
       .subscribe({
         next: (res) => {
+          console.log('Login response:', res);
           localStorage.setItem('access_token', res.access_token);
-          this.router.navigate(['/']);
+          // Force page reload to update the navbar based on the new login state
+          window.location.href = '/';
         },
         error: (err) => {
           console.error('Login error:', err);
