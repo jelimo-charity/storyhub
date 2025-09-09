@@ -1,0 +1,36 @@
+<div class="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-2xl">
+    <h2 class="text-2xl font-bold mb-6 text-center">Articles</h2>
+    <div *ngIf="loading" class="text-center text-gray-500">Loading...</div>
+    <div
+      *ngIf="!loading && articles.length === 0"
+      class="flex flex-col items-center justify-center py-12"
+    >
+      <svg
+        class="w-16 h-16 text-gray-300 mb-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 21H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2z"
+        />
+      </svg>
+      <div class="text-xl text-gray-500 font-semibold">No articles at the moment</div>
+      <div class="text-gray-400 mt-2">Check back later or create a new story!</div>
+    </div>
+    <ul *ngIf="!loading && articles.length > 0">
+      <li *ngFor="let article of articles" class="mb-4">
+        <button
+          (click)="openArticle(article)"
+          class="text-lg text-blue-600 hover:underline focus:outline-none cursor-pointer bg-transparent border-none"
+        >
+          {{ article.title }}
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

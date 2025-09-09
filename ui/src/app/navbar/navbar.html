@@ -1,0 +1,39 @@
+<nav class="bg-white shadow mb-8">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+      <button
+        (click)="navigateTo('/')"
+        class="font-bold text-xl text-blue-600 cursor-pointer bg-transparent border-none"
+      >
+        StoryHub
+      </button>
+      <button
+        (click)="navigateTo('/')"
+        class="text-gray-700 hover:text-blue-600 cursor-pointer bg-transparent border-none"
+      >
+        Home
+      </button>
+    </div>
+    <div class="flex items-center space-x-4">
+      <ng-container *ngIf="!isLoggedIn">
+        <button
+          (click)="navigateTo('/login')"
+          class="text-gray-700 hover:text-blue-600 cursor-pointer bg-transparent border-none"
+        >
+          Login
+        </button>
+        <button
+          (click)="navigateTo('/register')"
+          class="text-gray-700 hover:text-blue-600 cursor-pointer bg-transparent border-none"
+        >
+          Register
+        </button>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn">
+        <button (click)="logout()" class="text-gray-700 hover:text-red-600 cursor-pointer">
+          Logout
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</nav>
