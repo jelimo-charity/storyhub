@@ -17,29 +17,29 @@ import { ArticleTag } from './articletag/models/articletag.model';
 import { Tag } from './tags/models/tags.model';
 import { Like } from './likes/models/likes.model';
 import { Comment } from './comments/models/comments.model';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UsersModule, StoriesModule, CategoriesModule, CommentsModule, LikesModule, TagsModule,
+  imports: [
     ConfigModule.forRoot(),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT ?? '5432'), // Default to 5432 if undefined
+      port: parseInt(process.env.DB_PORT ?? '5432'),
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      models: [
-  User, 
-  Article, 
-  Category, 
-  Tag, 
-  ArticleTag, 
-  Like, 
-  Comment,
-      ],
+      models: [User, Article, Category, Tag, ArticleTag, Like, Comment],
       autoLoadModels: true,
       synchronize: true, // Set to false in production
     }),
+    AuthModule,
+    UsersModule,
+    StoriesModule,
+    CategoriesModule,
+    CommentsModule,
+    LikesModule,
+    TagsModule,
     ArticletagModule,
   ],
   controllers: [AppController],

@@ -29,7 +29,7 @@ export class User extends Model<User> {
     allowNull: false,
     unique: true
   })
-  username: string;
+  declare username: string;
 
   @Column({
     type: DataType.STRING(100),
@@ -39,33 +39,33 @@ export class User extends Model<User> {
       isEmail: true
     }
   })
-  email: string;
+  declare email: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false
   })
-  password: string;
+  declare password: string;
 
   @Column({
     type: DataType.ENUM(...Object.values(UserRole)),
     allowNull: false,
     defaultValue: UserRole.READER
   })
-  role: UserRole;
+  declare role: UserRole;
 
   @Column({
     type: DataType.TEXT,
     allowNull: true
   })
-  bio: string;
+  declare bio: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: true,
     field: 'profile_picture'
   })
-  profilePicture: string;
+  declare profilePicture: string;
 
   @HasMany(() => Article)
   articles: Article[];

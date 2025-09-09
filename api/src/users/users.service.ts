@@ -1,3 +1,4 @@
+  // ...existing code...
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,14 +18,17 @@ export class UsersService {
     if (!username || !email || !password) {
       throw new Error('Missing required user fields');
     }
-  // Optional fields with defaults
-  const role: UserRole = createUserDto.role ?? UserRole.READER;
+    // Hash password
+    const bcrypt = require('bcryptjs');
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // Optional fields with defaults
+    const role: UserRole = createUserDto.role ?? UserRole.READER;
     const bio = createUserDto.bio ?? '';
     const profilePicture = createUserDto.profilePicture ?? '';
     return this.userModel.create({
       username: username!,
       email: email!,
-      password: password!,
+      password: hashedPassword,
       role,
       bio,
       profilePicture
@@ -37,6 +41,10 @@ export class UsersService {
 
   async findOne(id: number): Promise<User | null> {
     return this.userModel.findByPk(id);
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userModel.findOne({ where: { email } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<[number, User[]]> {
