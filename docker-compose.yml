@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: storyhubdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2691
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api:
+    build: ./api
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: 2691
+      DB_DATABASE: storyhubdb
+      NODE_ENV: production
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+
+  ui:
+    build: ./ui
+    restart: always
+    ports:
+      - "80:4200"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

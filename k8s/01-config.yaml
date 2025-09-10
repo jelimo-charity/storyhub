@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: storyhub-config
+  namespace: storyhub
+data:
+  POSTGRES_DB: storyhubdb
+  DB_HOST: postgres-svc
+  DB_PORT: "5432"
+  DB_DATABASE: storyhubdb
+  NODE_ENV: production
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: storyhub-secrets
+  namespace: storyhub
+type: Opaque
+data:
+  # Base64 encoded "postgres"
+  POSTGRES_USER: cG9zdGdyZXM=
+  # Base64 encoded "2691"
+  POSTGRES_PASSWORD: MjY5MQ==
+  DB_USERNAME: cG9zdGdyZXM=
+  DB_PASSWORD: MjY5MQ==
